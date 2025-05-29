@@ -10,13 +10,9 @@ USER_AGENT = "github-tool/1.0"
 
 async def make_github_request(url: str) -> dict[str, Any] | list[Any] | None:
     """Make a request to the GitHub API with proper error handling."""
-    headers = {
-        "User-Agent": USER_AGENT,
-        "Accept": "application/vnd.github.v3+json"
-    }
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.get(url, headers=headers, timeout=30.0)
+            response = await client.get(url, timeout=30.0)
             response.raise_for_status()
             return response.json()
         except Exception:
